@@ -14,8 +14,9 @@ class SDKPackage(custom.Ribbon, package.SDKPackage):
 
     packages =[
                # (name, required, selected)
-               ('communicator', True, True),
-			   ('openwebrtc', True, True)
+               #('communicator', True, True),
+			   ('openwebrtc', True, True),
+			   ('data-codec', True, True)
                
               ]
 

@@ -1,0 +1,41 @@
+# -*- Mode: Python -*- vi:si:et:sw=4:sts=4:ts=4:syntax=python
+#from cerbero.tools.libtool import LibtoolLibrary
+
+
+class Recipe(recipe.Recipe):
+    name = 'flatbuffers'
+    version = '1.8.0'
+    stype = SourceType.TARBALL
+    requires_non_src_build = False
+    if os.getenv('MSYSTEM'):
+        btype = BuildType.AUTOCMAKE
+
+    else:
+        btype = BuildType.AUTOCMAKE
+        config_sh = './configure'
+        configure_tpl = "%(config-sh)s --prefix=%(prefix)s --libdir=%(libdir)s %(options)s"
+
+    url = 'https://github.com/google/flatbuffers/archive/v%s.tar.gz'%version
+
+    #licenses = [License.Apache License 2.0]
+
+#    files_bins = ['protoc']
+    files_libs = ['flatbuffers']
+    files_devel = [
+        'include/flatbuffers', 'lib/pkgconfig/flatbuffers.pc',
+    ]
+
+    def post_install(self):
+		from cerbero.tools.pkgconfig import PkgConfigWritter
+
+        #PKG Config file
+        pkgconfigdir = os.environ['PKG_CONFIG_LIBDIR']
+        
+        PkgConfigWritter('flatbuffers',
+        desc   ='efficient cross platform serialization library.',
+        version= self.version,
+        req    = '',
+        libs   = '-L${libdir} -lflatbuffers',
+        cflags = '-I${includedir}/flatbuffers',
+        prefix = self.config.prefix
+        ).save('flatbuffers', pkgconfigdir)
