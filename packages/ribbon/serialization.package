@@ -4,8 +4,8 @@
 
 class Package(custom.Ribbon, package.Package):
 
-    name = 'data-codec'
-    shortdesc = 'Serailze/Deseraize of data'
+    name = 'serialization'
+    shortdesc = 'serialization utils'
     longdesc = ''
     uuid = ''
 
